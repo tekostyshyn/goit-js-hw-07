@@ -32,8 +32,12 @@ function onGalleryImgClick(evt) {
   }
 
   function onEscKeyPress(evt) {
-    if (evt.code === "Escape") {
-      instance.close();
+    const ESC_KEY = "Escape";
+    
+    if (evt.code === ESC_KEY) {
+      instance.close(() => {
+        window.removeEventListener("keydown", onEscKeyPress);
+      });
     }
   }
 
@@ -44,12 +48,6 @@ function onGalleryImgClick(evt) {
     {
       onShow: (instance) => {
         window.addEventListener("keydown", onEscKeyPress);
-      },
-    },
-    {
-      onClose: (instance) => {
-        window.removeEventListener("keydown", onEscKeyPress);
-        console.log("is removed");
       },
     }
   );

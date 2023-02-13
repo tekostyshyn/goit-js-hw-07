@@ -31,16 +31,6 @@ function onGalleryImgClick(evt) {
     return;
   }
 
-  function onEscKeyPress(evt) {
-    const ESC_KEY = "Escape";
-    
-    if (evt.code === ESC_KEY) {
-      instance.close(() => {
-        window.removeEventListener("keydown", onEscKeyPress);
-      });
-    }
-  }
-
   const instance = basicLightbox.create(
     `
     <img src=${evt.target.dataset.source} width="800" height="600">
@@ -49,10 +39,23 @@ function onGalleryImgClick(evt) {
       onShow: (instance) => {
         window.addEventListener("keydown", onEscKeyPress);
       },
+    },
+    {
+      onClose: (instance) => {
+        window.removeEventListener("keydown", onEscKeyPress);
+      },
     }
   );
 
   instance.show();
+
+  function onEscKeyPress(evt) {
+    const ESC_KEY = "Escape";
+
+    if (evt.code === ESC_KEY) {
+        instance.close();
+    }
+  }
 }
 
 function blockDefaultAction(evt) {
